@@ -1,9 +1,9 @@
 {
-  "name": "jsninja-creation-demo",
+  "name": "koa-home-task",
   "version": "1.0.0",
-  "description": "Demo project for stream",
+  "description": "home task",
   "main": "index.js",
-  "author": "Illya Klymov <illya@javascript.ninja>",
+  "author": "Alex Duka <alex.duka@maddev.com>",
   "license": "MIT",
   "scripts": {
     "start": "rimraf ./dist && babel -d ./dist ./src -s && node dist/main.js",
