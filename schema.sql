@@ -1,8 +1,10 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Linux (x86_64)
+CREATE DATABASE  IF NOT EXISTS `koa-home-task` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `koa-home-task`;
+-- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
 --
--- Host: 127.0.0.1    Database: koa-home-task
+-- Host: localhost    Database: koa-home-task
 -- ------------------------------------------------------
--- Server version	5.7.17-0ubuntu0.16.04.1
+-- Server version	5.7.17
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,7 +30,10 @@ CREATE TABLE `companies` (
   `super_admin_id` char(36) NOT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `BY_NAME` (`name`),
+  KEY `FK_USER_idx` (`super_admin_id`),
+  CONSTRAINT `FK_SUPER_USER` FOREIGN KEY (`super_admin_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -40,13 +45,18 @@ DROP TABLE IF EXISTS `roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `roles` (
-  `id_user` char(36) DEFAULT NULL,
+  `id_user` char(36) NOT NULL,
   `id_company` char(36) DEFAULT NULL,
   `list_permission` tinyint(1) DEFAULT NULL,
   `create_permission` tinyint(1) DEFAULT NULL,
   `read_permisson` tinyint(1) DEFAULT NULL,
   `update_permission` tinyint(1) DEFAULT NULL,
-  `delete_permission` tinyint(1) DEFAULT NULL
+  `delete_permission` tinyint(1) DEFAULT NULL,
+  UNIQUE KEY `PK` (`id_company`,`id_user`),
+  KEY `BY_USER` (`id_user`),
+  KEY `BY_COMPANY` (`id_company`),
+  CONSTRAINT `FK_COMPANY` FOREIGN KEY (`id_company`) REFERENCES `companies` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `FK_USER` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -62,7 +72,8 @@ CREATE TABLE `users` (
   `name` varchar(45) NOT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `BY_NAME` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -75,4 +86,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-31 19:14:59
+-- Dump completed on 2017-04-01 10:05:34

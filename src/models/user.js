@@ -1,0 +1,66 @@
+import bcrypt from "bcrypt";
+import { PasswordMatchConfirmationError } from "../helpers/errors";
+import { BCRYPT_SALT_ROUNDS } from "../config";
+
+export default (sequelize, DataTypes) => {
+  const User = sequelize.define(
+    "user",
+    {
+      id: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4
+      },
+      login: {
+        type: DataTypes.STRING(45),
+        unique: true,
+        allowNull: false
+      },
+      email: {
+        type: DataTypes.STRING(50),
+        unique: true,
+        allowNull: false,
+        set(val) {
+          this.setDataValue("email", val.toLowerCase());
+        },
+        validate: {
+          isEmail: true
+        }
+      },
+      password: {
+        type: DataTypes.STRING(80),
+        allowNull: false,
+        validate: {
+          is: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
+        }
+      }
+    },
+    {
+      timestamps: false,
+      tableName: "users",
+      validate: {
+        passwordMatchConfirmation() {
+          if (this.passwordConfirmation !== this.password) {
+            throw new PasswordMatchConfirmationError(
+              "Password doesn't match confirmation"
+            );
+          }
+        }
+      }
+    }
+  );
+
+  User.setAssociation = models => {
+    User.belongsToMany(models.Company, {
+      through: models.Role,
+      foreignKey: "id_user"
+    });
+  };
+
+  User.beforeCreate((user, options) =>
+    bcrypt.hash(user.password, BCRYPT_SALT_ROUNDS).then(hashedPw => {
+      user.password = hashedPw;
+    }));
+
+  return User;
+};
