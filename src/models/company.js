@@ -1,5 +1,5 @@
 export default (sequelize, DataTypes) => {
-  const Company = sequelize.define("company", {
+  const Company = sequelize.define("Company", {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -12,7 +12,7 @@ export default (sequelize, DataTypes) => {
 
   }, {
     timestamps: false,
-    tableName: "users"
+    tableName: "companies"
   });
 
   Company.setAssociation = models => {
@@ -20,9 +20,10 @@ export default (sequelize, DataTypes) => {
       onDelete: "RESTRICT",
       onUpdate: "CASCADE",
       foreignKey: {
-        field: "super_admin_id",
+        field: "id_super_admin",
         allowNull: false
       },
+      targetKey: "id",
       as: "Owner"
     });
     Company.belongsToMany(models.User, { through: models.Role, foreignKey: "id_company" });

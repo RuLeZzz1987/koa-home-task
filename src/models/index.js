@@ -4,7 +4,7 @@ import * as Constants from "../config";
 
 const sequelize = new Sequelize(
   Constants.DB_NAME,
-  Constants.DB_USEN_NAME,
+  Constants.DB_USER_NAME,
   Constants.DB_USER_PASSWORD,
   {
     host: Constants.DB_HOST,

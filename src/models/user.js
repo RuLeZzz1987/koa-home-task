@@ -4,7 +4,7 @@ import { BCRYPT_SALT_ROUNDS } from "../config";
 
 export default (sequelize, DataTypes) => {
   const User = sequelize.define(
-    "user",
+    "User",
     {
       id: {
         type: DataTypes.UUID,
@@ -24,14 +24,19 @@ export default (sequelize, DataTypes) => {
           this.setDataValue("email", val.toLowerCase());
         },
         validate: {
-          isEmail: true
+          isEmail: {
+            msg: "Provided value is not valid email address"
+          }
         }
       },
       password: {
         type: DataTypes.STRING(80),
         allowNull: false,
         validate: {
-          is: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
+          is: {
+            args: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/,
+            msg: "Password should contain 6 - 16 chars and at least one number, specific symbol and capital letter"
+          }
         }
       }
     },
@@ -39,7 +44,7 @@ export default (sequelize, DataTypes) => {
       timestamps: false,
       tableName: "users",
       validate: {
-        passwordMatchConfirmation() {
+        passwordConfirmation() {
           if (this.passwordConfirmation !== this.password) {
             throw new PasswordMatchConfirmationError(
               "Password doesn't match confirmation"
