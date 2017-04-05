@@ -26,7 +26,7 @@ export default (sequelize, DataTypes) => {
       targetKey: "id",
       as: "Owner"
     });
-    Company.belongsToMany(models.User, { through: models.Role, foreignKey: "id_company" });
+    Company.belongsToMany(models.User, { as: "Employee", through: models.Role, foreignKey: "id_company" });
   };
 
   return Company;
