@@ -11,9 +11,12 @@ export default async ctx => {
   } catch (e) {
     if (e instanceof ForeignKeyConstraintError) {
       ctx.status = 403;
-      ctx.body = {status: "error", message: "Can not remove user which is the owner of the company"}
+      ctx.body = {
+        status: "error",
+        message: "Can not remove user which is the owner of the company"
+      };
     } else {
       throw e;
     }
   }
-}
+};
