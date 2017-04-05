@@ -20,6 +20,6 @@ app.use(jwt({ secret: JWT_SECRET }));
 app.use(route.get("/", getListHandler));
 app.use(route.get("/:id", getOneHandler));
 app.use(route.put("/:id?", updateHandler));
-app.use(route.delete("/:id?", removeHandler));
+app.use(route.delete("/", removeHandler));
 
 export default app;
