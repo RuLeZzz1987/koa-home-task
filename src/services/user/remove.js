@@ -15,8 +15,8 @@ export default async ctx => {
         status: "error",
         message: "Can not remove user which is the owner of the company"
       };
-    } else {
-      throw e;
+      return;
     }
+    throw e;
   }
 };
