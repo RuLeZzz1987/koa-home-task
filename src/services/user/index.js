@@ -12,11 +12,14 @@ import { JWT_SECRET, JSON_MAX_PAYLOAD_SIZE } from "../../config";
 const app = new Koa();
 
 app.use(body({ limit: JSON_MAX_PAYLOAD_SIZE, fallback: true }));
+
 app.use(route.post("/", createHandler));
+
 app.use(jwt({ secret: JWT_SECRET }));
+
 app.use(route.get("/", getListHandler));
 app.use(route.get("/:id", getOneHandler));
-app.use(route.put("/", updateHandler));
-app.use(route.delete("/", removeHandler));
+app.use(route.put("/:id?", updateHandler));
+app.use(route.delete("/:id?", removeHandler));
 
 export default app;

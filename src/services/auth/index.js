@@ -9,6 +9,7 @@ import { JSON_MAX_PAYLOAD_SIZE } from "../../config";
 const app = new Koa();
 
 app.use(body({ limit: JSON_MAX_PAYLOAD_SIZE, fallback: true }));
+
 app.use(route.post("/login", loginHandler));
 app.use(mount("/recover-password", recoverPasswordHandler));
 
