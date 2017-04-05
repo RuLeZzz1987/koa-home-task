@@ -50,14 +50,13 @@ export default (sequelize, DataTypes) => {
               "Password doesn't match confirmation"
             );
           }
-          delete this.passwordConfirm
+          delete this.passwordConfirm;
         }
       },
       setterMethods: {
         passwordConfirmation(value) {
           this.passwordConfirm = value;
-        },
-
+        }
       }
     }
   );

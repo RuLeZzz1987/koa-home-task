@@ -33,7 +33,7 @@ const loginHandler = async (ctx, next) => {
     ctx.throw(401, "Authentication Error");
   }
 
-  ctx.viewUser = {login: user.login, id: user.id, email: user.email};
+  ctx.viewUser = { login: user.login, id: user.id, email: user.email };
   next();
 };
 
