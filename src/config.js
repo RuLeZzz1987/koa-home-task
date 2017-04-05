@@ -8,3 +8,5 @@ export const DB_TYPE = process.env.DB_TYPE || "mysql";
 export const BCRYPT_SALT_ROUNDS = +process.env.PASSWORD_SALT_ROUNDS || 10;
 
 export const JWT_SECRET = "kdjf&842kds;2391%#W";
+export const JWT_LIFE_TIME = "15m";
+export const JWT_REFRESH_LIFE_TIME = "7d";
