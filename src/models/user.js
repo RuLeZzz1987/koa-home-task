@@ -45,12 +45,19 @@ export default (sequelize, DataTypes) => {
       tableName: "users",
       validate: {
         passwordConfirmation() {
-          if (this.passwordConfirmation !== this.password) {
+          if (this.passwordConfirm !== this.password) {
             throw new PasswordMatchConfirmationError(
               "Password doesn't match confirmation"
             );
           }
+          delete this.passwordConfirm
         }
+      },
+      setterMethods: {
+        passwordConfirmation(value) {
+          this.passwordConfirm = value;
+        },
+
       }
     }
   );
