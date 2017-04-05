@@ -21,8 +21,8 @@ app.use(route.del("/:id", remove));
 app.use(route.put("/:id", update));
 app.use(route.post("/", create));
 
-app.use(route.post("/:id/add-user/:userId", addUser));
-app.use(route.delete("/:id/remove-user/:userId", removeUser));
-app.use(route.put("/:id/change-role/:userId", changeRole));
+app.use(route.post("/:id/add-employee/:userId", addUser));
+app.use(route.delete("/:id/remove-employee/:userId", removeUser));
+app.use(route.put("/:id/change-employees-role/:userId", changeRole));
 
 export default app;

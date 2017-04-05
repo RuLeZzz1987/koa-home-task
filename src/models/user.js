@@ -64,7 +64,8 @@ export default (sequelize, DataTypes) => {
   User.setAssociation = models => {
     User.belongsToMany(models.Company, {
       through: models.Role,
-      foreignKey: "id_user"
+      foreignKey: "id_user",
+      as: { singular: "Company", plural: "Companies" }
     });
   };
 
