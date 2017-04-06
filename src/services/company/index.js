@@ -10,16 +10,25 @@ import create from "./create";
 import addUser from "./add-user";
 import removeUser from "./remove-user";
 import changeRole from "./change-role";
+import verifyCompanyExistence from "./verify-company-existence";
+import verifyUserExistence from "./verify-user-existence";
+import verifyRequesterPermissions from "./verify-requester-permissions";
 
 const app = new Koa();
 
 app.use(jwt({ secret: JWT_SECRET }));
 app.use(body({ limit: JSON_MAX_PAYLOAD_SIZE, fallback: true }));
 
+app.use(route.post("/", create));
+
+app.use(route.all("/:id", verifyCompanyExistence));
+
 app.use(route.get("/:id", getOne));
 app.use(route.del("/:id", remove));
 app.use(route.put("/:id", update));
-app.use(route.post("/", create));
+
+app.use(verifyRequesterPermissions);
+app.use(route.all("/:id/*/:userId", verifyUserExistence));
 
 app.use(route.post("/:id/add-employee/:userId", addUser));
 app.use(route.delete("/:id/remove-employee/:userId", removeUser));
