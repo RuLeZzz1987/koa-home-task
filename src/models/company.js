@@ -31,7 +31,17 @@ export default (sequelize, DataTypes) => {
     });
     Company.belongsToMany(models.User, {
       as: { singular: "Employee", plural: "Employees" },
-      through: models.Role,
+      through: { model: models.Role, unique: true },
+      foreignKey: "id_company"
+    });
+    Company.belongsToMany(models.User, {
+      as: { singular: "Admin", plural: "Admins" },
+      through: { model: models.Role, unique: true, scope: { role: "admin" } },
+      foreignKey: "id_company"
+    });
+    Company.belongsToMany(models.User, {
+      as: { singular: "User", plural: "Users" },
+      through: { model: models.Role, unique: true, scope: { role: "user" } },
       foreignKey: "id_company"
     });
   };

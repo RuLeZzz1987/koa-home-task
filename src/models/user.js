@@ -67,6 +67,11 @@ export default (sequelize, DataTypes) => {
       foreignKey: "id_user",
       as: { singular: "Company", plural: "Companies" }
     });
+
+    User.hasMany(models.Company, {
+      foreignKey: "id_super_admin",
+      as: { singular: "Business", plural: "Businesses"}
+    })
   };
 
   User.beforeCreate((user, options) =>
