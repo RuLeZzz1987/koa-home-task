@@ -13,5 +13,9 @@ export default async (ctx, next) => {
     }
   }
 
+  if (ctx.company.OwnerId === requester.id) {
+    ctx.isOwner = true;
+  }
+
   await next();
 }

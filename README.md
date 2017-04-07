@@ -4,6 +4,9 @@
 
 ##### Used environment vars
 
+* Server
+  
+  * PORT - server port running, default: "3000"
 
 * Database
   * DB_NAME - database name

@@ -11,6 +11,7 @@ import create from "./create";
 import addUser from "./add-user";
 import removeUser from "./remove-user";
 import changeRole from "./change-role";
+import leave from "./leave";
 import verifyCompanyExistence from "./verify-company-existence";
 import verifyUserExistence from "./verify-user-existence";
 import verifyRequesterAdminPermissions from "./verify-requester-admin-permissions";
@@ -27,6 +28,7 @@ app.use(route.post("/", create));
 app.use(route.all("/:id", verifyCompanyExistence));
 
 app.use(route.get("/:id", compose([verifyRequesterEmployeePermissions, getOne])));
+app.use(route.del("/:id/leave", compose([verifyRequesterEmployeePermissions, leave])));
 app.use(route.del("/:id", compose([verifyRequesterIsOwner, remove])));
 
 app.use(verifyRequesterAdminPermissions);
