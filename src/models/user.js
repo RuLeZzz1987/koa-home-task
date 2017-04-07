@@ -50,7 +50,7 @@ export default (sequelize, DataTypes) => {
       tableName: "users",
       validate: {
         passwordConfirmation() {
-          if (this.passwordConfirm !== this.password) {
+          if (this.password && this.passwordConfirm !== this.password) {
             throw new PasswordMatchConfirmationError(
               "Password doesn't match confirmation"
             );
@@ -75,14 +75,24 @@ export default (sequelize, DataTypes) => {
 
     User.hasMany(models.Company, {
       foreignKey: "id_super_admin",
-      as: { singular: "Business", plural: "Businesses"}
-    })
+      as: { singular: "Business", plural: "Businesses" }
+    });
   };
 
   User.beforeCreate((user, options) =>
     bcrypt.hash(user.password, BCRYPT_SALT_ROUNDS).then(hashedPw => {
       user.password = hashedPw;
     }));
+
+  User.beforeUpdate((user, options) => {
+    if (user.password) {
+      return bcrypt.hash(user.password, BCRYPT_SALT_ROUNDS).then(hashedPw => {
+        user.password = hashedPw;
+      });
+    }
+
+    return Promise.resolve();
+  });
 
   return User;
 };
