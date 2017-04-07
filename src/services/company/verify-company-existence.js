@@ -1,6 +1,6 @@
 import models from "../../models";
 
-export default async (ctx, id, next) => {
+export default async (ctx, id, rest, next) => {
   ctx.transaction = await models.sequelize.transaction();
   ctx.company = await models.Company.findById(id);
   if (!ctx.company) {
@@ -14,4 +14,4 @@ export default async (ctx, id, next) => {
   }
 
   await next();
-}
+};

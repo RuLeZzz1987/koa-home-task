@@ -25,7 +25,7 @@ app.use(body({ limit: JSON_MAX_PAYLOAD_SIZE, fallback: true }));
 
 app.use(route.post("/", create));
 
-app.use(route.all("/:id", verifyCompanyExistence));
+app.use(route.all("/:id/*", verifyCompanyExistence));
 
 app.use(route.get("/:id", compose([verifyRequesterEmployeePermissions, getOne])));
 app.use(route.del("/:id/leave", compose([verifyRequesterEmployeePermissions, leave])));

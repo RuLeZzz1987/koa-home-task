@@ -1,5 +1,5 @@
 export default async (ctx, next) => {
-  const { requester } = ctx.state;
+  const { user: requester } = ctx.state;
   const employees = await ctx.company.getEmployees();
   if (
     !employees.some(employee => employee.id === requester.id) &&
@@ -10,8 +10,8 @@ export default async (ctx, next) => {
     ctx.body = {
       status: "error",
       message: "You don't have permissions which allow this action"
-    }
+    };
   }
 
   await next();
-}
+};

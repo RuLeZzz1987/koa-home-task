@@ -7,7 +7,7 @@ export default async ctx => {
 
     ctx.body = {
       status: "success",
-      message: `You left company ${company.name} was removed`
+      message: `You left company ${company.name}`
     };
 
   } catch (e) {

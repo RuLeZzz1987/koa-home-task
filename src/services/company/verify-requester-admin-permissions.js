@@ -1,5 +1,5 @@
 export default async (ctx, next) => {
-  const { requester } = ctx.state;
+  const { user: requester } = ctx.state;
   const admins = await ctx.company.getAdmins();
   if (
     !admins.some(admin => admin.id === requester.id) &&
@@ -10,7 +10,7 @@ export default async (ctx, next) => {
     ctx.body = {
       status: "error",
       message: "You don't have admin permissions which allow this action"
-    }
+    };
   }
 
   if (ctx.company.OwnerId === requester.id) {
@@ -18,4 +18,4 @@ export default async (ctx, next) => {
   }
 
   await next();
-}
+};
