@@ -1,5 +1,5 @@
 export default async (ctx, next) => {
-  const { requester } = ctx.state;
+  const { user: requester } = ctx.state;
   if (ctx.company.OwnerId !== requester.id) {
     ctx.transaction.rollback();
     ctx.status = 403;
