@@ -1,7 +1,8 @@
 import models from "../../models";
 
-export default async (ctx, id, next) => {
+export default async (ctx, next) => {
   ctx.transaction = await models.sequelize.transaction();
+  const [id] = ctx.captures;
   ctx.company = await models.Company.findById(id);
   if (!ctx.company) {
     ctx.status = 404;

@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-export default async (ctx, id, userId, next) => {
+export default async ctx => {
   const role = _.get(ctx.request, "body.role", "user");
   const { company, transaction } = ctx;
   const { user } = ctx;

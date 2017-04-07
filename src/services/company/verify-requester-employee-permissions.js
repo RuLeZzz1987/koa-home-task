@@ -11,6 +11,7 @@ export default async (ctx, next) => {
       status: "error",
       message: "You don't have permissions which allow this action"
     };
+    return;
   }
 
   await next();

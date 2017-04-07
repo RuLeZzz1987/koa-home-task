@@ -1,7 +1,8 @@
 import models from "../../models";
 
-export default async (ctx, id, urlPath, userId, next) => {
+export default async (ctx, next) => {
   const { transaction } = ctx;
+  const [id, route, userId] = ctx.captures;
   const user = await models.User.findById(userId, { transaction });
   if (!user) {
     ctx.transaction.rollback();
