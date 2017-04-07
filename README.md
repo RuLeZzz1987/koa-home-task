@@ -5,7 +5,8 @@
 ##### Used environment vars
 
 * Server
-  
+ * PORT - port server running
+ * NODE_ENV - current environment, options: `development`, `production`, `test`
 
 * Database
   * DB_NAME - database name

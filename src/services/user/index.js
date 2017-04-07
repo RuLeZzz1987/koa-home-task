@@ -7,6 +7,7 @@ import updateHandler from "./update";
 import getListHandler from "./get-list";
 import removeHandler from "./remove";
 import getOneHandler from "./get-one";
+import verifyRequester from "./verify-requester-admin-or-self";
 import { JWT_SECRET, JSON_MAX_PAYLOAD_SIZE } from "../../config";
 
 const app = new Koa();
@@ -21,9 +22,11 @@ app.use(createRoute.routes());
 
 app.use(jwt({ secret: JWT_SECRET }));
 
+otherRoutes.all("/:id", verifyRequester);
 otherRoutes.get("/:id", getOneHandler);
 otherRoutes.put("/:id", updateHandler);
 otherRoutes.del("/:id", removeHandler);
+otherRoutes.get("/", getListHandler);
 
 app.use(otherRoutes.routes());
 

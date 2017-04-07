@@ -1,5 +1,4 @@
 import bcrypt from "bcrypt";
-import { PasswordMatchConfirmationError } from "../helpers/errors";
 import { BCRYPT_SALT_ROUNDS } from "../config";
 
 export default (sequelize, DataTypes) => {
@@ -31,13 +30,7 @@ export default (sequelize, DataTypes) => {
       },
       password: {
         type: DataTypes.STRING(80),
-        allowNull: false,
-        validate: {
-          is: {
-            args: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/,
-            msg: "Password should contain 6 - 16 chars and at least one number, specific symbol and capital letter"
-          }
-        }
+        allowNull: false
       },
       role: {
         type: DataTypes.STRING(5),
@@ -48,19 +41,16 @@ export default (sequelize, DataTypes) => {
     {
       timestamps: false,
       tableName: "users",
-      validate: {
-        passwordConfirmation() {
-          if (this.password && this.passwordConfirm !== this.password) {
-            throw new PasswordMatchConfirmationError(
-              "Password doesn't match confirmation"
-            );
+      scopes: {
+        admin: {
+          where: {
+            role: "admin"
           }
-          delete this.passwordConfirm;
-        }
-      },
-      setterMethods: {
-        passwordConfirmation(value) {
-          this.passwordConfirm = value;
+        },
+        common: {
+          where: {
+            role: "user"
+          }
         }
       }
     }
