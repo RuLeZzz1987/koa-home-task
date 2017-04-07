@@ -9,6 +9,8 @@ export const DB_USER_NAME = process.env.DB_USER_NAME || "root";
 export const DB_USER_PASSWORD = process.env.DB_USER_PASSWORD || "pro100";
 export const DB_HOST = process.env.DB_HOST || "localhost";
 export const DB_TYPE = process.env.DB_TYPE || "mysql";
+export const DB_SYNC_FORCE = process.env.DB_SYNC_FORCE || undefined;
+export const DB_ADD_SUPER_ADMIN = process.env.DB_ADD_SUPER_ADMIN || undefined;
 
 export const BCRYPT_SALT_ROUNDS = +process.env.PASSWORD_SALT_ROUNDS || 10;
 

@@ -34,7 +34,7 @@ Object.keys(db).forEach(modelName => {
 
 let sync;
 
-if (process.env.DB_SYNC_FORCE) {
+if (Constants.DB_SYNC_FORCE) {
   sync = sequelize.sync({
     force: true
   })
@@ -43,7 +43,7 @@ if (process.env.DB_SYNC_FORCE) {
     });
 }
 
-if (process.env.DB_ADD_SUPER_ADMIN) {
+if (Constants.DB_ADD_SUPER_ADMIN) {
   sync = sync.then instanceof Function ? sync : Promise.resolve();
   sync
     .then(() => db.User.create({
