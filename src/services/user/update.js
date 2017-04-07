@@ -28,7 +28,7 @@ export default async (ctx, next) => {
       user.id === requester.id &&
       role === "user"
     ) {
-      ctx.status = 400;
+      ctx.status = 403;
       ctx.body = {
         status: "error",
         message: "You can not remove the last admin user"
