@@ -38,6 +38,11 @@ export default (sequelize, DataTypes) => {
             msg: "Password should contain 6 - 16 chars and at least one number, specific symbol and capital letter"
           }
         }
+      },
+      role: {
+        type: DataTypes.STRING(5),
+        allowNull: false,
+        defaultValue: "user"
       }
     },
     {

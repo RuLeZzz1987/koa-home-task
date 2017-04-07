@@ -6,7 +6,6 @@
 
 * Server
   
-  * PORT - server port running, default: "3000"
 
 * Database
   * DB_NAME - database name
@@ -15,13 +14,13 @@
   * DB_USER_PASSWORD - database user password
   * DB_HOST - database host name, default: "localhost"
   * DB_TYPE - database type, default: "mysql";
-
+  * DB_SYNC_FORCE - remove existed database and create new one using defined schema
+  * DB_ADD_SUPER_ADMIN - add super user with predefined values on application startup
+  
 * Bcrypt
-
   * PASSWORD_SALT_ROUNDS - bcrypt password salt rounds
   
-* Json Web Token
-  
+* Json Web Token 
   * JWT_SECRET - json web token secret key
   * JWT_LIFE_TIME - json web token life time, default: "15m";
   * JWT_REFRESH_LIFE_TIME - refresh token life time, default: "7d";

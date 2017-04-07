@@ -1,8 +1,8 @@
 export default async (ctx, next) => {
   const { user: requester } = ctx.state;
-  const employees = await ctx.company.getEmployees();
+  ctx.employees = await ctx.company.getEmployees();
   if (
-    !employees.some(employee => employee.id === requester.id) &&
+    !ctx.employees.some(employee => employee.id === requester.id) &&
     ctx.company.OwnerId !== requester.id
   ) {
     ctx.transaction.rollback();

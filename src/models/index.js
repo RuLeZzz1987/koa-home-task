@@ -32,12 +32,36 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+let sync;
+
 if (process.env.DB_SYNC_FORCE) {
-  sequelize.sync({
+  sync = sequelize.sync({
     force: true
-  });
+  })
+    .then(() => {
+      global.console.log("Database schema synchronized!");
+    });
 }
 
+if (process.env.DB_ADD_SUPER_ADMIN) {
+  sync = sync.then instanceof Function ? sync : Promise.resolve();
+  sync
+    .then(() => db.User.create({
+      login: "admin",
+      email: "koa.admin@mailinator.com",
+      role: "admin",
+      password: "Adm1n!",
+      passwordConfirmation: "Adm1n!"
+    }))
+    .then(user => {
+      global.console.log(`Super admin user created with id ${user.id}`);
+    })
+    .catch(err => {
+      global.console.error("An error occurred on creating super admin");
+      global.console.error(err.message);
+      process.exit(1);
+    });
+}
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

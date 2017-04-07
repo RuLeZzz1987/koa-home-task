@@ -21,9 +21,8 @@ app.use(createRoute.routes());
 
 app.use(jwt({ secret: JWT_SECRET }));
 
-otherRoutes.get("/", getListHandler);
 otherRoutes.get("/:id", getOneHandler);
-otherRoutes.put("/:id?", updateHandler);
+otherRoutes.put("/", updateHandler);
 otherRoutes.del("/", removeHandler);
 
 app.use(otherRoutes.routes());
