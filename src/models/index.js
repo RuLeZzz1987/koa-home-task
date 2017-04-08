@@ -1,5 +1,6 @@
 import Sequelize from "sequelize";
 import path from "path";
+import Promise from "bluebird";
 import * as Constants from "../config";
 
 const sequelize = new Sequelize(
@@ -18,7 +19,7 @@ const sequelize = new Sequelize(
   }
 );
 
-sequelize.Promise = global.Promise;
+sequelize.Promise = Promise;
 
 const db = {
   User: sequelize.import(path.resolve(__dirname, "user.js")),
@@ -31,37 +32,6 @@ Object.keys(db).forEach(modelName => {
     db[modelName].setAssociation(db);
   }
 });
-
-let sync;
-
-if (Constants.DB_SYNC_FORCE) {
-  sync = sequelize.sync({
-    force: true
-  })
-    .then(() => {
-      global.console.log("Database schema synchronized!");
-    });
-}
-
-if (Constants.DB_ADD_SUPER_ADMIN) {
-  sync = sync.then instanceof Function ? sync : Promise.resolve();
-  sync
-    .then(() => db.User.create({
-      login: "admin",
-      email: "koa.admin@mailinator.com",
-      role: "admin",
-      password: "Adm1n!",
-      passwordConfirmation: "Adm1n!"
-    }))
-    .then(user => {
-      global.console.log(`Super admin user created with id ${user.id}`);
-    })
-    .catch(err => {
-      global.console.error("An error occurred on creating super admin");
-      global.console.error(err.message);
-      process.exit(1);
-    });
-}
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

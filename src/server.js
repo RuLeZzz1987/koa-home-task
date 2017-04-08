@@ -16,4 +16,7 @@ app.use(mount("/user", user));
 app.use(mount("/company", company));
 app.use(route.all("/*", notFound));
 
-export default app;
+const server = new Koa();
+server.use(mount("/api/v1", app));
+
+export default server;

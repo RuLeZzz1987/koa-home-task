@@ -9,16 +9,21 @@
     "start": "rimraf ./dist && babel -d ./dist ./src -s && node dist/main.js",
     "dev": "node dev.js",
     "lint:js": "eslint ./src",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "test": "cross-env NODE_ENV=test DB_TYPE=sqlite DB_SYNC_FORCE=true DB_ADD_SUPER_ADMIN=true ava"
   },
   "devDependencies": {
     "babel-register": "^6.23.0",
+    "cross-env": "^4.0.0",
     "eslint": "^3.16.1",
     "eslint-config-airbnb-base": "^11.1.0",
     "eslint-config-prettier": "^1.4.1",
     "eslint-plugin-import": "^2.2.0",
     "lint-staged": "^3.3.1",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "proxyquire": "^1.7.11",
+    "sqlite3": "^3.1.8",
+    "supertest": "^3.0.0"
   },
   "lint-staged": {
     "*.js": "eslint"
@@ -40,11 +45,13 @@
   },
   "pre-commit": "lint-staged",
   "dependencies": {
+    "ava": "^0.19.0",
     "babel-cli": "^6.23.0",
     "babel-core": "^6.23.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-env": "^1.1.11",
     "bcrypt": "^1.0.2",
+    "bluebird": "^3.5.0",
     "jsonwebtoken": "^7.3.0",
     "koa": "^2.2.0",
     "koa-compose": "^3.2.1",
@@ -76,6 +83,22 @@
           }
         }
       ]
+    ]
+  },
+  "ava": {
+    "files": [
+      "test/**/*.js",
+      "!**/not-this-file.js"
+    ],
+    "source": [
+      "src/**/*.js"
+    ],
+    "concurrency": 5,
+    "failFast": true,
+    "tap": true,
+    "powerAssert": true,
+    "require": [
+      "babel-register"
     ]
   }
 }

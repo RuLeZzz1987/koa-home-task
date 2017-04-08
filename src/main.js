@@ -1,9 +1,12 @@
-import Koa from "koa";
-import mount from "koa-mount";
-import serverApp from "./server";
+import sync from "./models/sync";
+import app from "./server";
 import { PORT } from "./config";
 
-const app = new Koa();
-app.use(mount("/api/v1", serverApp));
+const startTime = Date.now();
 
-app.listen(PORT);
+sync.then(() => {
+  app.listen(
+    PORT,
+    () => global.console.log(`Server listening ${PORT}. Started in ${Date.now() - startTime}ms`)
+  );
+});
