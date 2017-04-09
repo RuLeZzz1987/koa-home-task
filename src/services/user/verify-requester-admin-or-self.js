@@ -1,7 +1,7 @@
 export default async (ctx, next) => {
   const { user: requester } = ctx.state;
   const [userId] = ctx.captures;
-  if (requester.role === "admin" || requester.id === userId) {
+  if (requester.role === "admin" || requester.id === userId || !userId) {
     await next();
   } else {
     ctx.status = 403;

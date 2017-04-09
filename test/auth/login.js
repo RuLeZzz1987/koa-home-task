@@ -7,7 +7,7 @@ let server;
 let request;
 
 test.before(t =>
-  sync.then(() => {
+  sync().then(() => {
     server = app.listen();
     request = supertest(server);
   }));

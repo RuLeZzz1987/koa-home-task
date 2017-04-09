@@ -19,7 +19,7 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING(50),
         unique: true,
         allowNull: false,
-        set(val) {
+        set(val="") {
           this.setDataValue("email", val.toLowerCase());
         },
         validate: {

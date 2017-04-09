@@ -1,7 +1,7 @@
 import models from "./index";
 import { DB_SYNC_FORCE, DB_ADD_SUPER_ADMIN } from "../config";
 
-const sync = DB_SYNC_FORCE
+const sync = () => DB_SYNC_FORCE
   ? models.sequelize
       .sync({
         force: true

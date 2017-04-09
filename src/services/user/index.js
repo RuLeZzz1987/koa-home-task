@@ -22,10 +22,11 @@ app.use(createRoute.routes());
 
 app.use(jwt({ secret: JWT_SECRET }));
 
-otherRoutes.all("/:id", verifyRequester);
+otherRoutes.all("/:id?", verifyRequester);
+otherRoutes.all("/:id?", verifyRequester);
 otherRoutes.get("/:id", getOneHandler);
-otherRoutes.put("/:id", updateHandler);
-otherRoutes.del("/:id", removeHandler);
+otherRoutes.put("/:id?", updateHandler);
+otherRoutes.del("/:id?", removeHandler);
 otherRoutes.get("/", getListHandler);
 
 app.use(otherRoutes.routes());

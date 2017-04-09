@@ -10,7 +10,8 @@
     "dev": "node dev.js",
     "lint:js": "eslint ./src",
     "lint-staged": "lint-staged",
-    "test": "cross-env NODE_ENV=test DB_TYPE=sqlite DB_SYNC_FORCE=true DB_ADD_SUPER_ADMIN=true ava"
+    "test": "cross-env NODE_ENV=test DB_TYPE=sqlite DB_SYNC_FORCE=true DB_ADD_SUPER_ADMIN=true ava",
+    "test-coverage": "cross-env NODE_ENV=test DB_TYPE=sqlite DB_SYNC_FORCE=true DB_ADD_SUPER_ADMIN=true nyc -r html ava"
   },
   "devDependencies": {
     "babel-register": "^6.23.0",
@@ -62,6 +63,7 @@
     "koa-router": "^7.1.1",
     "lodash": "^4.17.4",
     "mysql": "^2.13.0",
+    "nyc": "^10.2.0",
     "rimraf": "^2.6.1",
     "sequelize": "^3.30.4"
   },

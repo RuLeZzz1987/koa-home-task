@@ -3,14 +3,22 @@ import models from "../../models";
 
 const { ForeignKeyConstraintError } = Sequelize;
 
+// TODO add transactions
+
 export default async ctx => {
+
   const [userId] = ctx.captures;
   const { user } = ctx.state;
+  const transaction = await models.sequelize.transaction({ autocommit: false });
   try {
-    const transaction = models.sequelize.transaction();
-    const adminsCount = models.User.scope("admin").count({ transaction });
+    const adminsCount = await models.User.scope("admin").count({ transaction });
 
-    if (adminsCount === 1 && userId === user.id && user.role === "admin") {
+    if (
+      adminsCount === 1 &&
+      (!userId || userId === user.id) &&
+      user.role === "admin"
+    ) {
+      await transaction.rollback();
       ctx.status = 403;
       ctx.body = {
         status: "error",
@@ -19,9 +27,14 @@ export default async ctx => {
       return;
     }
 
-    await models.User.destroy({ where: { id: user.id } });
+    await models.User.destroy(
+      { where: { id: userId || user.id } },
+      { transaction }
+    );
+    await transaction.commit();
     ctx.body = { status: "success", message: "User account has been removed" };
   } catch (e) {
+    await transaction.rollback();
     if (e instanceof ForeignKeyConstraintError) {
       ctx.status = 403;
       ctx.body = {
