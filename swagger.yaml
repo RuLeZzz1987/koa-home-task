@@ -1,0 +1,438 @@
+swagger: '2.0'
+info:
+  description: Koa home task
+  version: 1.0.0
+  title: Koa home task
+  contact:
+    email: alex.duka@maddev.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: developers
+    description: Operations available to regular developers
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /auth/login:
+    post:
+      parameters:
+        - in: body
+          name: login
+          description: login credentials
+          schema:
+            type: object
+            required:
+              - login
+              - password
+            properties:
+              login:
+                type: string
+              password:
+                type: string
+      responses:
+        '200':
+          description: user successfully authenticated
+          schema:
+            $ref: '#/definitions/AuthenticationResult'
+        '401':
+          description: failed to authenticate user
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /user:
+    post:
+      parameters:
+        - in: body
+          name: user data
+          description: user information for create an account
+          schema:
+            type: object
+            required:
+              - login
+              - email
+              - password
+            properties:
+              login:
+                type: string
+                example: Ave Inge
+              email:
+                type: string
+                format: email
+                example: ave.inge@mailinator.com
+              password:
+                type: string
+                example: Qwerty1!
+      responses:
+        '201':
+          description: user created
+          schema:
+            $ref: '#/definitions/AuthenticationResult'
+        '400':
+          description: validations error
+          schema:
+            $ref: '#/definitions/ValidationError'
+    put:
+      security:
+        - jwt: []
+      parameters:
+        - in: body
+          name: user data
+          description: update user information
+          schema:
+            type: object
+            required:
+              - login
+              - email
+              - password
+            properties:
+              login:
+                type: string
+                example: Ave Inge
+              email:
+                type: string
+                format: email
+                example: ave.inge@mailinator.com
+              password:
+                type: string
+                example: Qwerty1!
+              role:
+                type: string
+                enum:
+                  - user
+                  - admin
+      responses:
+        '200':
+          description: user updated
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: validations error
+          schema:
+            $ref: '#/definitions/ValidationError'
+        '403':
+          description: not enough permissions to update user with provided fields
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    delete:
+      description: remove users account
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+  /user/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          type: uuid
+          required: true
+          description: user id
+      security:
+      - jwt: []
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        403:
+          description: Not enought permissions
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        404:
+          description: User not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    put:
+      parameters:
+      - in: path
+        name: id
+        type: uuid
+        required: true
+        description: user id
+      security:
+        - jwt: []
+      responses:
+        200:
+          description: updated user
+          schema:
+            $ref: '#/definitions/User'
+        403:
+          description: Not enought permissions
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    delete:
+      parameters:
+      - in: path
+        name: id
+        type: uuid
+        required: true
+        description: user id
+      security:
+        - jwt: []
+      responses:
+        200:
+          description: user removed
+        403:
+          description: Not enought permissions
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /user:
+    get:
+      security:
+        - jwt: []
+      responses:
+        200:
+          schema:
+            type: array
+            $ref: '#/definitions/User'
+        403:
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /company:
+    post:
+
+      security:
+        - jwt: []
+      parameters:
+        - in: body
+          name: company
+          description: company info
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+      responses:
+        200:
+          description: created company
+        403:
+          description: Not enought permissions
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /company/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          type: uuid
+          required: true
+          description: company id
+      security:
+        - jwt: []
+      responses:
+        200:
+          description: requested company
+          schema:
+            $ref: '#/definitions/Company'
+        403:
+          description: Not enought permissions
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        404:
+          description: Not found entry with provided id
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    delete:
+      parameters:
+        - in: path
+          name: id
+          type: uuid
+          required: true
+          description: company id
+      security:
+        - jwt: []
+      responses:
+        200:
+          description: company successfully removed
+        403:
+          description: Not enought permissions
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        404:
+          description: Not found entry with provided id
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    put:
+      parameters:
+        - in: path
+          name: id
+          type: uuid
+          required: true
+          description: company id
+      security:
+        - jwt: []
+      parameters:
+        - in: body
+          name: company
+          description: company info
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+      responses:
+        200:
+          description: updated company
+        403:
+          description: Not enought permissions
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        400:
+          description: Missing name parameter
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        404:
+          description: Not found entry with provided id
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /company/{id}/employees:
+    get:
+      parameters:
+        - in: path
+          name: id
+          type: uuid
+          required: true
+          description: company id
+      security:
+        - jwt: []
+      responses:
+        200:
+          description: employees from requested company
+          schema:
+            type: array
+            $ref: '#/definitions/User'
+        403:
+          description: Not enought permissions
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        404:
+          description: Not found entry with provided id
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /company/{id}/leave:
+    get:
+      parameters:
+        - in: path
+          name: id
+          type: uuid
+          required: true
+          description: company id
+      security:
+        - jwt: []
+      responses:
+        200:
+          description: user successfully leave company with provided ID
+        403:
+          description: Not enought permissions
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        404:
+          description: Not found entry with provided id
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      login:
+        type: string
+      email:
+        type: string
+        format: email
+      role:
+        type: string
+  ValidationErrorMessage:
+    type: object
+    properties:
+      password:
+        type: string
+      email:
+        type: string
+      login:
+        type: string
+  ValidationError:
+    type: object
+    required:
+      - status
+      - message
+    properties:
+      status:
+        type: string
+        example: error
+      message:
+        $ref: '#/definitions/ValidationErrorMessage'
+  ErrorResponse:
+    type: object
+    required:
+      - status
+      - message
+    properties:
+      status:
+        type: string
+        example: error
+      message:
+        type: string
+        example: Custom Exception
+  Company:
+    type: object
+    required:
+      - name
+      - OwnerId
+    properties:
+      name:
+        type: string
+        example: Company Name
+      OwnerId:
+        type: string
+        format: uuid
+  SuccessResponse:
+    type: object
+    required:
+      - status
+      - message
+    properties:
+      status:
+        type: string
+        example: success
+      message:
+        type: string
+        example: Something was done
+  AuthenticationResult:
+    type: object
+    required:
+      - token
+      - refreshToken
+      - status
+    properties:
+      status:
+        type: string
+        example: success
+      token:
+        type: string
+        format: base64
+      refreshToken:
+        type: string
+        format: base64
+securityDefinitions:
+    # Authorization: Bearer jwt
+    jwt:
+      type: apiKey
+      in: header
+      name: Authorization
+host: virtserver.swaggerhub.com
+basePath: /RuLeZzz1987/node-training-koa-home-task/1.0.0
+schemes:
+  - https
+  - http
