@@ -1,9 +1,7 @@
-import models from "../../models";
-
 export default async ctx => {
   try {
     const { user: requester } = ctx.state;
-    const { company } = ctx;
+    const { company, transaction } = ctx;
 
     if (company.OwnerId !== requester.id && requester.role !== "admin") {
       ctx.status = 403;
@@ -14,13 +12,13 @@ export default async ctx => {
       return;
     }
 
-    const removedCompany = await company.destroy();
+    const removedCompany = await company.destroy({ transaction });
+    await transaction.commit();
 
     ctx.body = {
       status: "success",
       message: `Company ${removedCompany.name} was removed`
     };
-
   } catch (e) {
     throw e;
   }

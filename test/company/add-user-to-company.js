@@ -41,15 +41,15 @@ test("Owner can add user to company", async t => {
 
 test("Owner can add user to company and grant admin permissions", async t => {
   const owner = await request.post("/api/v1/user").send({
-    login: "custom 1",
+    login: "custom 11",
     password: "Qwerty",
-    email: "custom-1@mailinator.com"
+    email: "custom-11@mailinator.com"
   });
 
   const user = await request.post("/api/v1/user").send({
-    login: "custom 2",
+    login: "custom 12",
     password: "Qwerty",
-    email: "custom-2@mailinator.com"
+    email: "custom-12@mailinator.com"
   });
 
   const company = await request
