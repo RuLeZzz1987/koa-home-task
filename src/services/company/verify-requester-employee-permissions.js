@@ -3,7 +3,8 @@ export default async (ctx, next) => {
   ctx.employees = await ctx.company.getEmployees();
   if (
     !ctx.employees.some(employee => employee.id === requester.id) &&
-    ctx.company.OwnerId !== requester.id
+    ctx.company.OwnerId !== requester.id &&
+    requester.role !== "admin"
   ) {
     ctx.transaction.rollback();
     ctx.status = 403;
