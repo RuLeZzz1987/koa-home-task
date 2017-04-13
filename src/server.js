@@ -14,9 +14,9 @@ app.use(rootHandler);
 app.use(mount("/auth", auth));
 app.use(mount("/user", user));
 app.use(mount("/company", company));
-app.use(route.all("/*", notFound));
 
 const server = new Koa();
 server.use(mount("/api/v1", app));
+server.use(route.all("/*", notFound));
 
 export default server;
