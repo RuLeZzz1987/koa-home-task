@@ -11,6 +11,7 @@ export default async (ctx, next) => {
       status: "error",
       message: "You don't have admin permissions which allow this action"
     };
+    return;
   }
 
   if (ctx.company.OwnerId === requester.id) {

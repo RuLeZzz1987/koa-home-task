@@ -1,11 +1,11 @@
 import models from "../../models";
 
-export default async (ctx, id, next) => {
+export default async ctx => {
   try {
     const { user: requester } = ctx.state;
     const { company } = ctx;
 
-    if (company.OwnerId !== requester.id) {
+    if (company.OwnerId !== requester.id && requester.role !== "admin") {
       ctx.status = 403;
       ctx.body = {
         status: "error",

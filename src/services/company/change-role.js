@@ -14,7 +14,7 @@ export default async (ctx, id, userId, next) => {
       role
     };
 
-    await company.setEmployee(user, { transaction });
+    await company.setEmployees(user, { transaction });
     await transaction.commit();
     ctx.body = {
       status: "success",

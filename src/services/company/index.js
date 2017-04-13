@@ -15,7 +15,7 @@ import leave from "./leave";
 import employees from "./get-employees";
 import verifyCompanyExistence from "./verify-company-existence";
 import verifyUserExistence from "./verify-user-existence";
-import verifyRequesterAdminPermissions from "./verify-requester-admin-permissions";
+import verifyRequesterAdminOrOwnerPermissions from "./verify-requester-admin-or-owner-permissions";
 import verifyRequesterEmployeePermissions from "./verify-requester-employee-permissions";
 import verifyRequesterIsOwner from "./verify-requester-is-owner";
 
@@ -31,7 +31,7 @@ router.get("/:id", compose([verifyRequesterEmployeePermissions, getOne]));
 router.get("/:id/employees", compose([verifyRequesterEmployeePermissions, employees]));
 router.del("/:id/leave", compose([verifyRequesterEmployeePermissions, leave]));
 router.del("/:id", compose([verifyRequesterIsOwner, remove]));
-router.use(verifyRequesterAdminPermissions);
+router.use(verifyRequesterAdminOrOwnerPermissions);
 router.put("/:id", update);
 router.all("/:id/*/:userId", verifyUserExistence);
 router.post("/:id/add-employee/:userId", addUser);
