@@ -10,8 +10,8 @@
     "dev": "node dev.js",
     "lint:js": "eslint ./src",
     "lint-staged": "lint-staged",
-    "test": "cross-env NODE_ENV=test DB_TYPE=sqlite DB_SYNC_FORCE=true DB_ADD_SUPER_ADMIN=true ava",
-    "test-coverage": "cross-env NODE_ENV=test DB_TYPE=sqlite DB_SYNC_FORCE=true DB_ADD_SUPER_ADMIN=true nyc -r html ava"
+    "test": "cross-env NODE_ENV=test DB_TYPE=sqlite DB_SYNC_FORCE=true DB_ADD_SUPER_ADMIN=true ava --serial",
+    "test-coverage": "cross-env NODE_ENV=test DB_TYPE=sqlite DB_SYNC_FORCE=true DB_ADD_SUPER_ADMIN=true nyc -r html ava --serial"
   },
   "devDependencies": {
     "babel-register": "^6.23.0",

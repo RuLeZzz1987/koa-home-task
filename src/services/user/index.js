@@ -11,24 +11,17 @@ import verifyRequester from "./verify-requester-admin-or-self";
 import { JWT_SECRET, JSON_MAX_PAYLOAD_SIZE } from "../../config";
 
 const app = new Koa();
-const createRoute = new Router();
-const otherRoutes = new Router();
+const router = new Router();
 
-app.use(body({ limit: JSON_MAX_PAYLOAD_SIZE, fallback: true }));
+router.use(body({ limit: JSON_MAX_PAYLOAD_SIZE, fallback: true }));
+router.post("/", createHandler);
+router.use(jwt({ secret: JWT_SECRET }));
+router.all("/:id?", verifyRequester);
+router.get("/:id", getOneHandler);
+router.put("/:id?", updateHandler);
+router.del("/:id?", removeHandler);
+router.get("/", getListHandler);
 
-createRoute.post("/", createHandler);
-
-app.use(createRoute.routes());
-
-app.use(jwt({ secret: JWT_SECRET }));
-
-otherRoutes.all("/:id?", verifyRequester);
-otherRoutes.all("/:id?", verifyRequester);
-otherRoutes.get("/:id", getOneHandler);
-otherRoutes.put("/:id?", updateHandler);
-otherRoutes.del("/:id?", removeHandler);
-otherRoutes.get("/", getListHandler);
-
-app.use(otherRoutes.routes());
+app.use(router.routes());
 
 export default app;
