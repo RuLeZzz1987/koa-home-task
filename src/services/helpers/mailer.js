@@ -5,14 +5,14 @@ const transport = Nodemailer.createTransport({
   service: EMAIL_SERVICE,
   auth: {
     user: EMAIL_USER,
-    password: EMAIL_PASSWORD
+    pass: EMAIL_PASSWORD
   }
 });
 
 transport.sendMail = new Proxy(transport.sendMail, {
   apply: (target, thisArgs, argumentsList) =>
     new Promise((ok, fail) =>
-      target.call(thisArgs, argumentsList, (err, info) => err ? fail(err) : ok(info)))
+      target.apply(thisArgs, argumentsList.concat((err, info) => err ? fail(err) : ok(info))))
 });
 
 export default transport;
