@@ -7,7 +7,7 @@ const app = new Koa();
 const router = new Router();
 
 router.post("/", requestRecovery);
-router.post("/:recoverToken", changePassword);
+router.post("/:recoveryToken", changePassword);
 
 app.use(router.routes());
 

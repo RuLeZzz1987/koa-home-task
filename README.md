@@ -7,6 +7,15 @@
 * Server
  * PORT - port server running
  * NODE_ENV - current environment, options: `development`, `production`, `test`
+ * ROUTES_API_VERSION - version of the api, default: `api/v1`
+ * ROUTES_AUTH - path to auth service, default: `auth`
+ * ROUTES_RECOVERY_PASSWORD - path to recovery password route, default: `recover-password`
+ * PUBLIC_IP - public ip of the app, default: `http://localhost:{PORT}`
+
+* Email transport
+  * EMAIL_SERVICE - used service, default: `gmail`,
+  * EMAIL_USER - user email used for auth in transport service
+  * EMAIL_PASSWORD - user password for auth in transport service
 
 * Database
   * DB_NAME - database name

@@ -4,7 +4,7 @@ import { PORT } from "./config";
 
 const startTime = Date.now();
 
-sync.then(() => {
+sync().then(() => {
   app.listen(
     PORT,
     () => global.console.log(`Server listening ${PORT}. Started in ${Date.now() - startTime}ms`)

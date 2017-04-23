@@ -36,6 +36,9 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING(5),
         allowNull: false,
         defaultValue: "user"
+      },
+      recoveryToken: {
+        type: DataTypes.UUID
       }
     },
     {
