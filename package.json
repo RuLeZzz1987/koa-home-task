@@ -67,7 +67,8 @@
     "nyc": "^10.2.0",
     "rimraf": "^2.6.1",
     "sequelize": "^3.30.4",
-    "uuid": "^3.0.1"
+    "uuid": "^3.0.1",
+    "validator": "^7.0.0"
   },
   "babel": {
     "plugins": [

@@ -19,7 +19,7 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING(50),
         unique: true,
         allowNull: false,
-        set(val="") {
+        set(val = "") {
           this.setDataValue("email", val.toLowerCase());
         },
         validate: {
@@ -30,7 +30,14 @@ export default (sequelize, DataTypes) => {
       },
       password: {
         type: DataTypes.STRING(80),
-        allowNull: false
+        allowNull: false,
+        validate: {
+          minLength(val) {
+            if (val.length < 6) {
+              throw new Error("Password to short. Min length 6 chars");
+            }
+          }
+        }
       },
       role: {
         type: DataTypes.STRING(5),
