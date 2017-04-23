@@ -38,4 +38,9 @@ export default async (ctx, next) => {
   };
 
   await mailer.sendMail(mailOptions);
+
+  ctx.body = {
+    status: "success",
+    message: "Recovery instructions were sent to your email"
+  }
 };

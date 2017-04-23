@@ -12,7 +12,7 @@ const transport = Nodemailer.createTransport({
 transport.sendMail = new Proxy(transport.sendMail, {
   apply: (target, thisArgs, argumentsList) =>
     new Promise((ok, fail) =>
-      target.call(null, thisArgs, (err, info) => err ? fail(err) : ok(info)))
+      target.call(thisArgs, argumentsList, (err, info) => err ? fail(err) : ok(info)))
 });
 
 export default transport;
