@@ -43,6 +43,56 @@ paths:
           description: failed to authenticate user
           schema:
             $ref: '#/definitions/ErrorResponse'
+  /auth/recover-password:
+    post:
+      parameters:
+        - in: body
+          name: user email
+          description: user email for recover password
+          schema:
+            type: object
+            required:
+              - email
+            properties:
+              email:
+                type: string
+                format: email
+      responses:
+        200:
+          description: request successfully created.
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        404:
+          description: user was not found with provided email address
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /auth/recover-password/{recoveryToken}:
+    post:
+      parameters:
+        - in: path
+        name: recoveryToken
+        type: uuid
+        required: true
+        description: password recovery token
+        - in: body
+        name: user password
+        description: send new password with recovery token to change password
+        schema:
+          type: object
+          required:
+            - password
+          properties:
+            password:
+              type: string
+      responses:
+        200:
+          description: password successfully changed
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        400:
+          description: token not found or invalid
+          schema:
+            $ref: '#/definitions/ErrorResponse'
   /user:
     post:
       parameters:
